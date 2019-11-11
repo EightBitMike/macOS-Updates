@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><extensionAttribute>
+<displayName>Display Number of Security Updates</displayName>
+<description>Displays number of available security updates.</description>
+<dataType>string</dataType>
+<scriptContentsMac>#!/bin/sh&#13;
+desiredValue="EditFromTemplate_Desired_Value_-_Example:_false"&#13;
+&#13;
+updates=$(/usr/sbin/softwareupdate -l)&#13;
+getsecupd="$(echo "$updates" | /usr/bin/grep -B1 recommended | /usr/bin/grep -v recommended | grep Security | sed -n 's/   \* //p')"&#13;
+count=$(echo "$getsecupd" | awk '/^[ \t]*$/{next}{print}' | awk 'END{print NR}' )&#13;
+&#13;
+echo "&lt;result&gt;$count&lt;/result&gt;"</scriptContentsMac>
+</extensionAttribute>
